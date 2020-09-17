@@ -1,0 +1,12 @@
+.FixedLayout__in {
+    background: url(https://zoomagasin.ru/images/im-top-logo-mobile.png) no-repeat center;
+    background-color: #007151;
+}
+
+.Header__in, .Group, .Separator   {
+    background-color: #007151;
+}
+
+.Text {
+    color: #dcdec3;
+}
