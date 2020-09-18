@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/possum/static/css/main.058acb9d.chunk.css",
-    "main.js": "/possum/static/js/main.201693e0.chunk.js",
-    "main.js.map": "/possum/static/js/main.201693e0.chunk.js.map",
+    "main.js": "/possum/static/js/main.c634f1bb.chunk.js",
+    "main.js.map": "/possum/static/js/main.c634f1bb.chunk.js.map",
     "runtime-main.js": "/possum/static/js/runtime-main.053b7312.js",
     "runtime-main.js.map": "/possum/static/js/runtime-main.053b7312.js.map",
     "static/css/2.09e62520.chunk.css": "/possum/static/css/2.09e62520.chunk.css",
     "static/js/2.73958f4e.chunk.js": "/possum/static/js/2.73958f4e.chunk.js",
     "static/js/2.73958f4e.chunk.js.map": "/possum/static/js/2.73958f4e.chunk.js.map",
     "index.html": "/possum/index.html",
-    "precache-manifest.d3bb8ab8b9082eddae09a5ba0db6752a.js": "/possum/precache-manifest.d3bb8ab8b9082eddae09a5ba0db6752a.js",
+    "precache-manifest.d5e78b1409bcb1894eb4e7d8ccd836e7.js": "/possum/precache-manifest.d5e78b1409bcb1894eb4e7d8ccd836e7.js",
     "service-worker.js": "/possum/service-worker.js",
     "static/css/2.09e62520.chunk.css.map": "/possum/static/css/2.09e62520.chunk.css.map",
     "static/css/main.058acb9d.chunk.css.map": "/possum/static/css/main.058acb9d.chunk.css.map",
@@ -20,6 +20,6 @@
     "static/css/2.09e62520.chunk.css",
     "static/js/2.73958f4e.chunk.js",
     "static/css/main.058acb9d.chunk.css",
-    "static/js/main.201693e0.chunk.js"
+    "static/js/main.c634f1bb.chunk.js"
   ]
 }
