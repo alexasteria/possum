@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/possum/precache-manifest.1a5c597e6a9933595aa8cf11d199785e.js"
+  "/possum/precache-manifest.db0ad66f9c4f902c8f784c25d62e7c4c.js"
 );
 
 self.addEventListener('message', (event) => {
