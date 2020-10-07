@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "66795103448d940265ffc880cbaf27b3",
+    "revision": "684e4dcf5611a42cc966ef1930e87ce5",
     "url": "/possum/index.html"
   },
   {
@@ -8,7 +8,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/possum/static/css/2.09e62520.chunk.css"
   },
   {
-    "revision": "c30a9415f73d68e54dd3",
+    "revision": "3c9bd74feacf555833d2",
     "url": "/possum/static/css/main.30b76cfe.chunk.css"
   },
   {
@@ -20,8 +20,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/possum/static/js/2.0b4ddd9e.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "c30a9415f73d68e54dd3",
-    "url": "/possum/static/js/main.cfd50042.chunk.js"
+    "revision": "3c9bd74feacf555833d2",
+    "url": "/possum/static/js/main.26eca221.chunk.js"
   },
   {
     "revision": "2021fc5356747e15d6de",
