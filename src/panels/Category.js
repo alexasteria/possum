@@ -27,21 +27,21 @@ import Icon24LogoVk from "@vkontakte/icons/dist/24/logo_vk";
 import Icon24Linked from "@vkontakte/icons/dist/24/linked";
 import CartLine from "./components/CartLine";
 import mess from "./mess.png";
+import { useCart } from "../hooks/use_cart";
 
 const Category = ({
   id,
   go,
-  order,
   targetCategory,
   setActiveItem,
   activeSubcat,
   setArrItems,
   arrItems,
-  onIncrementPosition,
 }) => {
   const [isLoad, setIsLoad] = useState(<Spinner />);
   const [filters, setFilters] = useState([]);
   const [activeCat, setActiveCat] = useState("");
+  const { order, onIncrementPosition, snackbar } = useCart();
 
   useEffect(() => {
     isLoad === false && setIsLoad(<Spinner />);
@@ -147,16 +147,17 @@ const Category = ({
                           {item.title}
                         </Caption>
                       </MiniInfoCell>
-                      {item.varPrice.map((item, index) => (
-                        index === 0 &&
-                        <MiniInfoCell
-
-                            before={<Subhead>От </Subhead>}
-                            after={<Subhead>руб.</Subhead>}
-                        >
-                          <Subhead>{item.price}</Subhead>
-                        </MiniInfoCell>
-                      ))}
+                      {item.varPrice.map(
+                        (item, index) =>
+                          index === 0 && (
+                            <MiniInfoCell
+                              before={<Subhead>От </Subhead>}
+                              after={<Subhead>руб.</Subhead>}
+                            >
+                              <Subhead>{item.price}</Subhead>
+                            </MiniInfoCell>
+                          )
+                      )}
                       <MiniInfoCell>
                         <Button
                           onClick={() => onIncrementPosition(item)}
@@ -195,6 +196,7 @@ const Category = ({
         </MiniInfoCell>
         <Footer />
       </Group>
+      {snackbar}
     </Panel>
   );
 };

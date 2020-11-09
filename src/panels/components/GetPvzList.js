@@ -10,8 +10,12 @@ import {
 } from "@vkontakte/vkui";
 import Icon56ArticleOutline from "@vkontakte/icons/dist/56/article_outline";
 
-const GetPvzList = ({ id, go, goBack, activeCity, setItem, setPopout }) => {
+const GetPvzList = ({ id, go, goBack, setPopout, setActivePVZ, activeCity }) => {
   const [arrPvz, setArrPvz] = useState([]);
+  const setItem = (item) => {
+    setActivePVZ(item);
+    goBack();
+  };
   useEffect(() => {
     setPopout(<ScreenSpinner size="large" />);
     fetch("https://saharnypossum.herokuapp.com/items/getPVZ/" + activeCity.id)

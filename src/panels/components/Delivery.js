@@ -16,11 +16,11 @@ const Delivery = ({
   deliv,
   sum,
   activePVZ,
+  activeCity,
   go,
   typeDelivery,
   order,
   who,
-  activeCity,
   clearCart,
   setOrders_success,
   fetchedUser,
@@ -35,26 +35,36 @@ const Delivery = ({
   const [payLink, setPayLink] = useState(null);
   const [jsonParams, setJsonParams] = useState(null);
   const [orderNum, setOrderNum] = useState(null);
-
+  const [name, setName] = useState("");
   const genLink = () => {
     const date = Date.now();
     setOrderNum(date);
     setPayLink(null);
     const jsonParams = {};
+    const or = {};
     for (let key in order) {
-      if (key !== "meta")
-        jsonParams[
-          key
-        ] = `${order[key].item.title} (${order[key].item._id})  Штук - ${order[key].count}`;
+      if (key !== "meta") {
+        const vp = order[key].item.varPrice.filter(
+          (item) => item.active === true
+        );
+        or[key] = `${order[key].item.title} (${order[key].item._id})  Штук - ${
+          order[key].count
+        } Мерность - ${vp && vp.count} ${vp && vp.countLabel}`;
+      }
     }
-    jsonParams.amount = order.meta.sum;
-    jsonParams.count = order.meta.count;
-    jsonParams.weight = order.meta.weight;
-    jsonParams.typeDelivery = who;
-    jsonParams.activePVZ = activePVZ !== null ? activePVZ.name : "Не выбрано";
-    jsonParams.address = `г. ${activeCity.name},ул. ${street},д. ${house},кв. ${room}`;
-    jsonParams.phone = phone;
-    jsonParams.orderNum = date;
+    jsonParams.order = or;
+    jsonParams.info = {
+      amount: order.meta.sum,
+      count: order.meta.count,
+      weight: order.meta.weight,
+      typeDelivery: who,
+      activePVZ: activePVZ !== null ? activePVZ.name : "Не выбрано",
+      orderNum: date,
+    };
+    jsonParams.contacts = {
+      address: `г. ${activeCity.name},ул. ${street},д. ${house},кв. ${room}`,
+      phone: phone,
+    };
     setJsonParams(jsonParams);
     fetch("https://saharnypossum.herokuapp.com/pay/sber", {
       method: "POST",
@@ -172,6 +182,11 @@ const Delivery = ({
       {who === "sdek" && activePVZ !== null && (
         <FormLayout>
           <Input
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              top={"Получатель (ФИО)"}
+          />
+          <Input
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
             top={"Телефон"}
@@ -199,6 +214,11 @@ const Delivery = ({
       )}
       {who === "PR" && (
         <FormLayout>
+          <Input
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              top={"Получатель (ФИО)"}
+          />
           <Input
             value={street}
             onChange={(e) => setStreet(e.target.value)}

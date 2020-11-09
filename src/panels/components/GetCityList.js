@@ -11,10 +11,14 @@ import {
   Button,
 } from "@vkontakte/vkui";
 
-const GetCityList = ({ id, goBack, setItem }) => {
+const GetCityList = ({ id, goBack, setActiveCity }) => {
   const [arrCities, setArrCities] = useState([]); //города для доставки
   const [nameCity, setNameCity] = useState("");
   const [loading, setLoading] = useState(false);
+  const setItem = (item) => {
+    setActiveCity(item);
+    goBack();
+  }
   const find = () => {
     setLoading(true);
     const url = "https://sahpossum.herokuapp.com/items/getCities/" + nameCity;

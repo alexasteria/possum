@@ -19,6 +19,7 @@ import "./Home.css";
 import Icon56ArticleOutline from "@vkontakte/icons/dist/56/article_outline";
 import Delivery from "./components/Delivery";
 import CartListItems from "./components/CartListItems";
+import { useCart } from "../hooks/use_cart";
 
 const Cart = ({
   id,
@@ -26,19 +27,22 @@ const Cart = ({
   goBack,
   typeDelivery,
   fetchedUser,
-  activeCity,
-  onDecrementPosition,
-  onIncrementPosition,
-  order,
-  clearCart,
-  onDeletePosition,
-  activePVZ,
-  changeCount,
   setOrders_success,
   params,
+  activeCity,
+  activePVZ,
 }) => {
   const [deliv, setDeliv] = useState(null);
   const [who, setWho] = useState("sdek");
+  const {
+    order,
+    onIncrementPosition,
+    onDecrementPosition,
+    clearCart,
+    onDeletePosition,
+    changeCount,
+    snackbar,
+  } = useCart();
   useEffect(() => {
     if (activeCity !== null) getRange(activeCity.id);
   }, [activeCity, typeDelivery, order, activePVZ]);
@@ -178,6 +182,7 @@ const Cart = ({
           </Group>
         </Fragment>
         <Footer />
+        {snackbar}
       </Panel>
     );
   }

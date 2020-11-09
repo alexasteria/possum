@@ -1,17 +1,20 @@
 import React, { useEffect, useState } from "react";
 import {
-    Button,
-    Cell,
-    Footer,
-    Panel,
-    PanelHeader,
-    PanelHeaderBack,
-    Placeholder, Snackbar,
+  Button,
+  Cell,
+  Footer,
+  Panel,
+  PanelHeader,
+  PanelHeaderBack,
+  Placeholder,
+  Snackbar,
 } from "@vkontakte/vkui";
 import Icon56ArticleOutline from "@vkontakte/icons/dist/56/article_outline";
+import {useCart} from "../hooks/use_cart";
 
-const AllOrderds = ({ id, params, goBack, setSnackbar }) => {
+const AllOrderds = ({ id, params, goBack }) => {
   const [allOrders, setAllOrders] = useState(null);
+  const { message } = useCart();
   useEffect(() => {
     fetch("https://saharnypossum.herokuapp.com/pay/getAllOrders", {
       method: "POST",
@@ -26,11 +29,9 @@ const AllOrderds = ({ id, params, goBack, setSnackbar }) => {
       .then((res) => res.json())
       .then((res) => {
         if (res.error) {
-            setSnackbar(<Snackbar layout="vertical" onClose={() => setSnackbar(null)}>
-                Ошибка получения заказов
-            </Snackbar>);
+          message("Ошибка получения заказов");
         } else {
-            setAllOrders(res);
+          setAllOrders(res);
         }
       });
   }, []);

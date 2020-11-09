@@ -15,10 +15,11 @@ import {
 } from "@vkontakte/vkui";
 import "./Home.css";
 
-import Icon24MoneyCircle from "@vkontakte/icons/dist/24/money_circle";
 import CartLine from "./components/CartLine";
+import {useCart} from "../hooks/use_cart";
 
-const AboutItem = ({ id, go, activeItem, onIncrementPosition, order }) => {
+const AboutItem = ({ id, go, activeItem }) => {
+  const {order, onIncrementPosition, snackbar} = useCart();
   return (
     <Panel id={id}>
       <PanelHeader left={<PanelHeaderBack onClick={() => go("category")} />} />
@@ -79,6 +80,7 @@ const AboutItem = ({ id, go, activeItem, onIncrementPosition, order }) => {
         </React.Fragment>
       )}
       <Footer />
+      {snackbar}
     </Panel>
   );
 };

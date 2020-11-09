@@ -18,13 +18,15 @@ import Icon24Phone from '@vkontakte/icons/dist/24/phone';
 import Icon24LogoVk from '@vkontakte/icons/dist/24/logo_vk';
 import Icon24Linked from '@vkontakte/icons/dist/24/linked';
 import mess from "./mess.png"
+import {useCart} from "../hooks/use_cart";
 const addToCommunity = async() => {
     await bridge
         .send("VKWebAppAddToCommunity", {})
         .then((data) => console.log(data));
 }
 
-const Home = ({ id, go, fetchedUser, setTargetCategory, order }) => {
+const Home = ({ id, go, fetchedUser, setTargetCategory }) => {
+    const {order} = useCart();
 	return (
     <Panel id={id}>
       <PanelHeader>
