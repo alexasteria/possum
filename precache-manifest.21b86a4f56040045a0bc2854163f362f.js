@@ -1,27 +1,27 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "d9d8d3b80db995041125c4a55e979ed9",
+    "revision": "13060d662bf0d08ef40bba7b70127105",
     "url": "/possum/index.html"
   },
   {
-    "revision": "60b211eb6987050c4c80",
+    "revision": "f4891570f9d8baa2f5ea",
     "url": "/possum/static/css/2.09e62520.chunk.css"
   },
   {
-    "revision": "e8f25db5f56ff5a8e7c1",
+    "revision": "fd8d8814bcb90d69c2fb",
     "url": "/possum/static/css/main.30b76cfe.chunk.css"
   },
   {
-    "revision": "60b211eb6987050c4c80",
-    "url": "/possum/static/js/2.5eff3182.chunk.js"
+    "revision": "f4891570f9d8baa2f5ea",
+    "url": "/possum/static/js/2.a2adc9ed.chunk.js"
   },
   {
     "revision": "21ced859ea2b2d6b856d461ad6c2afed",
-    "url": "/possum/static/js/2.5eff3182.chunk.js.LICENSE.txt"
+    "url": "/possum/static/js/2.a2adc9ed.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "e8f25db5f56ff5a8e7c1",
-    "url": "/possum/static/js/main.8fe691df.chunk.js"
+    "revision": "fd8d8814bcb90d69c2fb",
+    "url": "/possum/static/js/main.33566aa2.chunk.js"
   },
   {
     "revision": "2021fc5356747e15d6de",
