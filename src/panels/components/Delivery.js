@@ -49,7 +49,7 @@ const Delivery = ({
         );
         or[key] = `${order[key].item.title} (${order[key].item._id})  Штук - ${
           order[key].count
-        } Мерность - ${vp && vp.count} ${vp && vp.countLabel}`;
+        } Мерность - ${vp && vp[0].count} ${vp && vp[0].countLabel}`;
       }
     }
     jsonParams.order = or;
@@ -64,6 +64,7 @@ const Delivery = ({
     jsonParams.contacts = {
       address: `г. ${activeCity.name},ул. ${street},д. ${house},кв. ${room}`,
       phone: phone,
+      name: name,
     };
     setJsonParams(jsonParams);
     fetch("https://saharnypossum.herokuapp.com/pay/sber", {
@@ -91,6 +92,7 @@ const Delivery = ({
     try {
       if (who === "sdek") {
         if (!activePVZ) throw "Не выбран пункт доставки";
+        if (name === "") throw "Не указаны ФИО получателя посылки";
         if (phone === "") throw "Не указан номер телефона";
         if (activePVZ.name === "Доставить домой") {
           if (street === "") throw "Не указан адрес доставки";
@@ -100,6 +102,7 @@ const Delivery = ({
         }
       }
       if (who === "PR") {
+        if (name === "") throw "Не указаны ФИО получателя посылки";
         if (street === "") throw "Не указан адрес доставки";
         if (house === "") throw "Не указан адрес доставки";
         if (room === "") throw "Не указан адрес доставки";
@@ -182,9 +185,9 @@ const Delivery = ({
       {who === "sdek" && activePVZ !== null && (
         <FormLayout>
           <Input
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              top={"Получатель (ФИО)"}
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            top={"Получатель (ФИО)"}
           />
           <Input
             value={phone}
@@ -215,9 +218,9 @@ const Delivery = ({
       {who === "PR" && (
         <FormLayout>
           <Input
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              top={"Получатель (ФИО)"}
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            top={"Получатель (ФИО)"}
           />
           <Input
             value={street}
