@@ -13,8 +13,11 @@ import GetCityList from "./panels/components/GetCityList";
 import GetClientAdress from "./panels/components/GetClientAdress";
 import AllOrderds from "./panels/allOrders";
 import {useCart} from "./hooks/use_cart";
+import {useDispatch} from "react-redux";
+import {set_cat} from "./store/actions";
 
 const App = ({ linkParams, params }) => {
+  const dispatch = useDispatch();
   const [activePanel, setActivePanel] = useState("home");
   const [fetchedUser, setUser] = useState(null);
   const [popout, setPopout] = useState(null); //<ScreenSpinner size='large' />
@@ -29,10 +32,6 @@ const App = ({ linkParams, params }) => {
   const [activeCity, setActiveCity] = useState(null); //город доставки
   const [activePVZ, setActivePVZ] = useState(null); //PVZ доставки
   const { snackbar } = useCart();
-  //const [ orderStatuses, setOrderStatuses ] = useState(JSON.parse((localStorage.getItem('orderStatuses') || 'null')) || {});
-  // const [order, setOrder] = useState(
-  //   JSON.parse(localStorage.getItem("orders") || "null") || {}
-  // );
   const [orders_success, setOrders_success] = useState(
     JSON.parse(localStorage.getItem("orders_success") || "null") || null
   );
@@ -43,7 +42,13 @@ const App = ({ linkParams, params }) => {
 
       setPopout(null);
     }
+    async function getCat() {
+      const response = await fetch("https://zoomagasin.ru/api/api.php?route=sections");
+      const res = await response.json()
+      dispatch(set_cat(res.items))
+    }
     fetchData();
+    getCat()
     window.onpopstate = () => {
       goBack();
     };

@@ -78,12 +78,20 @@ const Delivery = ({
       body: JSON.stringify({
         amount: Math.round(Number(deliv.price)) + Number(sum),
         orderNumber: date,
-        jsonParams: jsonParams,
+        jsonParams: jsonParams.contacts,
       }),
     })
       .then((res) => res.json())
       .then((res) => {
-        setPayLink(String(res));
+        if (res.error){
+          setSnackbar(<Snackbar
+              onClose={() => setSnackbar(null)}
+          >
+            Ошибка получения ссылки на оплату
+          </Snackbar>)
+        } else {
+          setPayLink(String(res));
+        }
       })
       .catch((e) => console.log(e));
   };
@@ -246,28 +254,31 @@ const Delivery = ({
       )}
       <Div>
         <a
-          style={{ display: "none" }}
-          target="_blank"
-          ref={payRef}
-          id="payLink"
-          href={payLink}
-          onClick={payAway}
+            style={{ display: "none" }}
+            target="_blank"
+            ref={payRef}
+            id="payLink"
+            href={payLink}
+            onClick={payAway}
         >
-          <div
-            style={{
-              textAlign: "center",
-              color: "antiquewhite",
-              background: "rgb(0 0 0 / 9%)",
-              borderRadius: 10,
-            }}
-          >
-            Выберите способ оплаты
-            <img
-              style={{ width: "100%" }}
-              src={payImg}
-              alt="Перейти к оплате"
-            />
-          </div>
+          {
+            payLink &&
+            <div
+                style={{
+                  textAlign: "center",
+                  color: "antiquewhite",
+                  background: "rgb(0 0 0 / 9%)",
+                  borderRadius: 10,
+                }}
+            >
+              Выберите способ оплаты
+              <img
+                  style={{ width: "100%" }}
+                  src={payImg}
+                  alt="Перейти к оплате"
+              />
+            </div>
+          }
         </a>
         <Button onClick={pay} mode={"outline"} size={"xl"}>
           {`Оплатить ${Math.round(Number(deliv.price)) + Number(sum)} руб.`}

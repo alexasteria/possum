@@ -19,14 +19,34 @@ import Icon24LogoVk from '@vkontakte/icons/dist/24/logo_vk';
 import Icon24Linked from '@vkontakte/icons/dist/24/linked';
 import mess from "./mess.png"
 import {useCart} from "../hooks/use_cart";
+import {useDispatch, useSelector} from "react-redux";
+import {set_target_cat} from "../store/actions";
 const addToCommunity = async() => {
     await bridge
         .send("VKWebAppAddToCommunity", {})
         .then((data) => console.log(data));
 }
 
+export const getImg = (id) => {
+    switch (id) {
+        case 1:
+            return "https://zoomagasin.ru/images/im-ej-logo.png"
+        case 19:
+            return "https://zoomagasin.ru/images/im-possum-logo.png"
+        case 23:
+            return "https://zoomagasin.ru/images/im-rept-logo.png"
+        case 27:
+            return "https://zoomagasin.ru/images/im-nasek-logo.png"
+        default:
+            return "https://zoomagasin.ru/images/im-drug-logo.png"
+    }
+}
+
 const Home = ({ id, go, fetchedUser, setTargetCategory }) => {
     const {order} = useCart();
+    const dispatch = useDispatch();
+    const categories = useSelector(state=>state.categories);
+    if (!categories) return null;
 	return (
     <Panel id={id}>
       <PanelHeader>
@@ -59,183 +79,31 @@ const Home = ({ id, go, fetchedUser, setTargetCategory }) => {
         </Div>
       </Group>
       <Group header={<Header mode="secondary">Категории товаров</Header>}>
-        <Banner
-          id={1}
-          onClick={(e) => {
-            setTargetCategory({
-              id: 1,
-              title: "Ежи",
-              icon: "https://zoomagasin.ru/images/im-ej-logo.png",
-              bdName: "Ежи",
-              subcat: [
-                "Витамины и лакомства для ежей",
-                "Корма для ежей",
-                "Средства ухода и аксессуары",
-              ],
-            });
-            go("category");
-          }}
-          mode="image"
-          header="Ежи"
-          asideMode={"expand"}
-          subheader={
-            "Все для ухода и содержания ежей. Профессиональные корма, лакомства, витамины и многое другое известных фирм ExoticMenu,  ExoticNutritio, Spike's World,  Hedgehogs and Friends и другие"
+          {
+              categories.map(cat=>cat.parent_id === null && <Banner
+                  id={cat.id}
+                  onClick={() => {
+                      dispatch(set_target_cat(cat))
+                      go("category");
+                  }}
+                  mode="image"
+                  header={cat.name}
+                  asideMode={"expand"}
+                  subheader={cat.description}
+                  background={
+                      <div
+                          style={{
+                              backgroundColor: "#198662",
+                              backgroundImage:
+                                  "url("+getImg(cat.id)+")",
+                              backgroundPosition: "right bottom",
+                              backgroundSize: 50,
+                              backgroundRepeat: "no-repeat",
+                          }}
+                      />
+                  }
+              />)
           }
-          background={
-            <div
-              style={{
-                backgroundColor: "#198662",
-                backgroundImage:
-                  "url(https://zoomagasin.ru/images/im-ej-logo.png)",
-                backgroundPosition: "right bottom",
-                backgroundSize: 50,
-                backgroundRepeat: "no-repeat",
-              }}
-            />
-          }
-        />
-        <Banner
-          id={2}
-          onClick={(e) => {
-            setTargetCategory({
-              id: 2,
-              title: "Рептилии",
-              icon: "https://zoomagasin.ru/images/im-rept-logo.png",
-              bdName: "Рептилии",
-              subcat: [
-                "Витамины и добавки",
-                "Диеты",
-                "Средства ухода, аксессуары, прочее",
-              ],
-            });
-            go("category");
-          }}
-          mode="image"
-          header="Рептилии"
-          asideMode={"expand"}
-          subheader={
-            "Все для ухода и содержания рептилий и амфибий. Профессиональные корма и диеты, лакомства, витамины и многое другое известных фирм ExoticMenu, Repashy, Nekton, Zoomed и другие"
-          }
-          background={
-            <div
-              style={{
-                backgroundColor: "#198662",
-                backgroundImage:
-                  "url(https://zoomagasin.ru/images/im-rept-logo.png)",
-                backgroundPosition: "right bottom",
-                backgroundSize: 50,
-                backgroundRepeat: "no-repeat",
-              }}
-            />
-          }
-        />
-        <Banner
-          id={3}
-          onClick={(e) => {
-            setTargetCategory({
-              id: 3,
-              title: "Насекомые",
-              icon: "https://zoomagasin.ru/images/im-nasek-logo.png",
-              bdName: "Насекомые",
-              subcat: [
-                "Консервы из насекомых",
-                "Корма и добавки для живых насекомых",
-                "Наборы и смеси из насекомых",
-                "Сублимированные насекомые",
-              ],
-            });
-            go("category");
-          }}
-          mode="image"
-          header="Насекомые"
-          asideMode={"expand"}
-          subheader={
-            "Консервированные, сушеные и сублимированные насекомые, полноценные готовые к употреблению без консервантов. А так же корма и добавки для живых насекомых известных фирм производителей  ExoticMenu, Repashy, Nekton, Zoomed и другие"
-          }
-          background={
-            <div
-              style={{
-                backgroundColor: "#198662",
-                backgroundImage:
-                  "url(https://zoomagasin.ru/images/im-nasek-logo.png)",
-                backgroundPosition: "right bottom",
-                backgroundSize: 50,
-                backgroundRepeat: "no-repeat",
-              }}
-            />
-          }
-        />
-        <Banner
-          id={4}
-          onClick={(e) => {
-            setTargetCategory({
-              id: 4,
-              title: "Сахарный поссум",
-              icon: "https://zoomagasin.ru/images/im-possum-logo.png",
-              bdName: "Сахарный поссум",
-              subcat: [
-                "Витамины и лакомства",
-                "Корма",
-                "Средства ухода, аксессуары",
-              ],
-            });
-            go("category");
-          }}
-          mode="image"
-          header="Сахарный поссум"
-          asideMode={"expand"}
-          subheader={
-            "Все для ухода и содержания сахарных поссумов. Профессиональные корма, лакомства, витамины и многое другое известных фирм ExoticMenu,  ExoticNutritio, Nekton и другие"
-          }
-          background={
-            <div
-              style={{
-                backgroundColor: "#198662",
-                backgroundImage:
-                  "url(https://zoomagasin.ru/images/im-possum-logo.png)",
-                backgroundPosition: "right bottom",
-                backgroundSize: 50,
-                backgroundRepeat: "no-repeat",
-              }}
-            />
-          }
-        />
-        <Banner
-          id={5}
-          onClick={(e) => {
-            setTargetCategory({
-              id: 5,
-              title: "Другие животные",
-              icon: "https://zoomagasin.ru/images/im-drug-logo.png",
-              bdName: "Другие животные, птицы, рыбки",
-              subcat: [
-                "Насекомоядные, листоядные, приматы",
-                "Прочие",
-                "Птицы",
-                "Рыбки и крабы",
-              ],
-            });
-            go("category");
-          }}
-          mode="image"
-          header="Другие животные"
-          asideMode={"expand"}
-          subheader={
-            "Все для ухода и содержания насекомоядных животных, рыбок, различных птиц, лемуров, обезьянок и других. Профессиональные корма, лакомства, витамины и многое другое известных фирм ExoticMenu,  ExoticNutritio, Repashy, Nekton и другие"
-          }
-          background={
-            <div
-              style={{
-                backgroundColor: "#198662",
-                backgroundImage:
-                  "url(https://zoomagasin.ru/images/im-drug-logo.png)",
-                backgroundPosition: "right bottom",
-                backgroundSize: 50,
-                backgroundRepeat: "no-repeat",
-              }}
-            />
-          }
-        />
       </Group>
       <Group header={<Header mode="secondary">Есть вопросы?</Header>}>
         <MiniInfoCell

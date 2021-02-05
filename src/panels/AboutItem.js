@@ -17,6 +17,7 @@ import "./Home.css";
 
 import CartLine from "./components/CartLine";
 import {useCart} from "../hooks/use_cart";
+import {getElements} from "./components/components/products_list";
 
 const AboutItem = ({ id, go, activeItem }) => {
   const {order, onIncrementPosition, snackbar} = useCart();
@@ -30,7 +31,7 @@ const AboutItem = ({ id, go, activeItem }) => {
             style={{ paddingTop: 40 }}
             header={<Header mode="secondary">Информация о товаре</Header>}
           >
-            <img style={{width: "100%"}} src={activeItem.thumb_photo} alt="Фото товара"/>
+            <img style={{width: "100%"}} src={activeItem.image_url} alt="Фото товара"/>
           </Group>
           <Div>
             <CardGrid>
@@ -41,21 +42,10 @@ const AboutItem = ({ id, go, activeItem }) => {
                     weight="semibold"
                     style={{ marginBottom: 16 }}
                   >
-                    {activeItem.title}
+                    {activeItem.name}
                   </Title>
                 </MiniInfoCell>
-                {activeItem.varPrice.map(item =>{
-                  return item.available > 0 && (
-                      <MiniInfoCell
-
-                          before={<Subhead>{item.count}{item.countLabel === "Вес" && "гр"}{item.countLabel === "Размер" && "см"}{item.countLabel === "Объем" && "мл"}</Subhead>}
-                          after={<Subhead>руб.</Subhead>}
-                      >
-                        <Subhead>{item.price}</Subhead>
-                      </MiniInfoCell>
-                  )
-                })}
-                <MiniInfoCell><Subhead>Добавьте в корзину для выбора</Subhead></MiniInfoCell>
+                {getElements(activeItem.elements)}
                 <Button
                     size="xl"
                     onClick={() => onIncrementPosition(activeItem)}
@@ -72,7 +62,7 @@ const AboutItem = ({ id, go, activeItem }) => {
                     color: "antiquewhite",
                   }}
                 >
-                  {activeItem.description}
+                  {activeItem.detail}
                 </Div>
               </Card>
             </CardGrid>

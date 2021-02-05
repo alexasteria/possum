@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Fragment } from "react";
+import React, { useState, useEffect, Fragment, useCallback } from "react";
 import {
   Header,
   Placeholder,
@@ -43,37 +43,40 @@ const Cart = ({
     changeCount,
     snackbar,
   } = useCart();
+  const getRange = useCallback(()=>{
+    if (order.meta){
+      fetch("https://saharnypossum.herokuapp.com/items/getRange", {
+        method: "POST",
+        mode: "cors",
+        cache: "no-cache",
+        credentials: "same-origin",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        redirect: "follow",
+        referrer: "no-referrer",
+        body: JSON.stringify({
+          cityCode: activeCity.id,
+          weight: String(order.meta.weight),
+          count: order.meta.count,
+          typeDelivery:
+              activePVZ !== null ? (activePVZ.id === 123 ? "137" : "136") : "137",
+          postal: activeCity.postal,
+        }),
+      })
+          .then((res) => res.json())
+          .then((res) => {
+            setDeliv(res);
+          })
+          .catch((e) => {
+            console.log(e);
+          });
+    }
+      },[order.meta, activeCity.id, activeCity.postal, activePVZ])
+  ;
   useEffect(() => {
     if (activeCity !== null) getRange(activeCity.id);
-  }, [activeCity, typeDelivery, order, activePVZ]);
-  const getRange = () => {
-    fetch("https://saharnypossum.herokuapp.com/items/getRange", {
-      method: "POST",
-      mode: "cors",
-      cache: "no-cache",
-      credentials: "same-origin",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      redirect: "follow",
-      referrer: "no-referrer",
-      body: JSON.stringify({
-        cityCode: activeCity.id,
-        weight: String(order.meta.weight),
-        count: order.meta.count,
-        typeDelivery:
-          activePVZ !== null ? (activePVZ.id === 123 ? "137" : "136") : "137",
-        postal: activeCity.postal,
-      }),
-    })
-      .then((res) => res.json())
-      .then((res) => {
-        setDeliv(res);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  };
+  }, [activeCity, typeDelivery, order, activePVZ, getRange]);
 
   if (!order.meta || order.meta.count === 0) {
     return (

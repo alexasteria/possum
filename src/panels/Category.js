@@ -1,74 +1,36 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   Header,
   Placeholder,
   Panel,
   PanelHeader,
-  Card,
-  CardGrid,
   PanelHeaderBack,
-  Button,
   MiniInfoCell,
-  Caption,
-  Subhead,
   Div,
   Link,
   Group,
   Footer,
   Spinner,
-  HorizontalScroll,
-  Tabs,
-  TabsItem,
 } from "@vkontakte/vkui";
 import "./Home.css";
-import Icon24MoneyCircle from "@vkontakte/icons/dist/24/money_circle";
 import Icon24Phone from "@vkontakte/icons/dist/24/phone";
 import Icon24LogoVk from "@vkontakte/icons/dist/24/logo_vk";
 import Icon24Linked from "@vkontakte/icons/dist/24/linked";
 import CartLine from "./components/CartLine";
 import mess from "./mess.png";
 import { useCart } from "../hooks/use_cart";
+import {getImg} from "./Home";
+import {useSelector} from "react-redux";
+import ProductsList from "./components/components/products_list";
 
 const Category = ({
   id,
   go,
-  targetCategory,
-  setActiveItem,
-  activeSubcat,
-  setArrItems,
-  arrItems,
+    setActiveItem
 }) => {
-  const [isLoad, setIsLoad] = useState(<Spinner />);
-  const [filters, setFilters] = useState([]);
-  const [activeCat, setActiveCat] = useState("");
-  const { order, onIncrementPosition, snackbar } = useCart();
-
-  useEffect(() => {
-    isLoad === false && setIsLoad(<Spinner />);
-    fetch("https://saharnypossum.herokuapp.com/items/getVkItems", {
-      method: "POST",
-      mode: "cors",
-      cache: "no-cache",
-      credentials: "same-origin",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      redirect: "follow",
-      referrer: "no-referrer",
-      body: JSON.stringify({
-        cat: targetCategory.bdName,
-        subcat: activeSubcat !== null ? activeSubcat : "",
-      }),
-    })
-      .then((res) => res.json())
-      .then((res) => {
-        setArrItems(res.items);
-        setFilters(res.filter);
-        setIsLoad(false);
-      })
-      .catch((e) => console.log(e));
-  }, []);
-
+  const { order, snackbar } = useCart();
+    const targetCat = useSelector(state=>state.targetCategory)
+    if (!targetCat) return null;
   return (
     <Panel id={id}>
       <PanelHeader left={<PanelHeaderBack onClick={() => go("home")} />} />
@@ -78,102 +40,17 @@ const Category = ({
           <div
             style={{
               marginTop: 50,
-              background: "url(" + targetCategory.icon + ") no-repeat",
+              background: "url(" + getImg(targetCat.id) + ") no-repeat",
               height: 50,
               width: 50,
             }}
           />
         }
       >
-        Выбрана категория: {targetCategory.title}
+        Выбрана категория: {targetCat.name}
       </Placeholder>
       <Div>
-        {isLoad ? (
-          isLoad
-        ) : (
-          <>
-            <HorizontalScroll>
-              <Tabs>
-                {filters.map((item) =>
-                  item !== null ? (
-                    <TabsItem
-                      selected={activeCat === item}
-                      onClick={() =>
-                        activeCat !== item
-                          ? setActiveCat(item)
-                          : setActiveCat("")
-                      }
-                    >
-                      {item}
-                    </TabsItem>
-                  ) : null
-                )}
-              </Tabs>
-            </HorizontalScroll>
-            <CardGrid style={{ marginTop: 10 }}>
-              {arrItems
-                .filter((item) =>
-                  activeCat !== "" ? item.category === activeCat : item
-                )
-                .map((item) => {
-                  return (
-                    <Card
-                      key={item.id}
-                      style={{
-                        padding: 2,
-                        borderRadius: 13,
-                        margin: 0,
-                        backgroundColor: "#007151",
-                      }}
-                      size="m"
-                      mode="shadow"
-                    >
-                      <div
-                        onClick={() => {
-                          setActiveItem(item);
-                          go("aboutItem");
-                        }}
-                        style={{
-                          height: 150,
-                          backgroundImage: "url(" + item.thumb_photo + ")",
-                          backgroundSize: "cover",
-                          backgroundPosition: "center 35%",
-                          backgroundRepeat: "no-repeat",
-                          borderRadius: 13,
-                        }}
-                      />
-                      <MiniInfoCell textWrap={"short"}>
-                        <Caption style={{ minHeight: 48 }} level={1}>
-                          {item.title}
-                        </Caption>
-                      </MiniInfoCell>
-                      {item.varPrice.map(
-                        (item, index) =>
-                          index === 0 && (
-                            <MiniInfoCell
-                              before={<Subhead>От </Subhead>}
-                              after={<Subhead>руб.</Subhead>}
-                            >
-                              <Subhead>{item.price}</Subhead>
-                            </MiniInfoCell>
-                          )
-                      )}
-                      <MiniInfoCell>
-                        <Button
-                          onClick={() => onIncrementPosition(item)}
-                          size="m"
-                          stretched
-                          mode="outline"
-                        >
-                          В корзину
-                        </Button>
-                      </MiniInfoCell>
-                    </Card>
-                  );
-                })}
-            </CardGrid>
-          </>
-        )}
+        <ProductsList setActiveItem={setActiveItem} go={go}/>
       </Div>
       <Group header={<Header mode="secondary">Есть вопросы?</Header>}>
         <MiniInfoCell

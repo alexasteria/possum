@@ -25,7 +25,7 @@ const GetPvzList = ({ id, go, goBack, setPopout, setActivePVZ, activeCity }) => 
         setPopout(null);
       })
       .catch((e) => console.log(e));
-  }, []);
+  }, [activeCity.id, setPopout]);
 
   if (arrPvz.length === 0) {
     return (
