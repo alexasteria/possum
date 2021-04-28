@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   Header,
   Placeholder,
@@ -10,7 +10,6 @@ import {
   Link,
   Group,
   Footer,
-  Spinner,
 } from "@vkontakte/vkui";
 import "./Home.css";
 import Icon24Phone from "@vkontakte/icons/dist/24/phone";
@@ -19,18 +18,14 @@ import Icon24Linked from "@vkontakte/icons/dist/24/linked";
 import CartLine from "./components/CartLine";
 import mess from "./mess.png";
 import { useCart } from "../hooks/use_cart";
-import {getImg} from "./Home";
-import {useSelector} from "react-redux";
+import { getImg } from "./Home";
+import { useSelector } from "react-redux";
 import ProductsList from "./components/components/products_list";
 
-const Category = ({
-  id,
-  go,
-    setActiveItem
-}) => {
+const Category = ({ id, go, setActiveItem }) => {
   const { order, snackbar } = useCart();
-    const targetCat = useSelector(state=>state.targetCategory)
-    if (!targetCat) return null;
+  const targetCat = useSelector((state) => state.targetCategory);
+  if (!targetCat) return null;
   return (
     <Panel id={id}>
       <PanelHeader left={<PanelHeaderBack onClick={() => go("home")} />} />
@@ -50,7 +45,7 @@ const Category = ({
         Выбрана категория: {targetCat.name}
       </Placeholder>
       <Div>
-        <ProductsList setActiveItem={setActiveItem} go={go}/>
+        <ProductsList setActiveItem={setActiveItem} go={go} />
       </Div>
       <Group header={<Header mode="secondary">Есть вопросы?</Header>}>
         <MiniInfoCell

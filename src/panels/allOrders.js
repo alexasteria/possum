@@ -7,10 +7,9 @@ import {
   PanelHeader,
   PanelHeaderBack,
   Placeholder,
-  Snackbar,
 } from "@vkontakte/vkui";
 import Icon56ArticleOutline from "@vkontakte/icons/dist/56/article_outline";
-import {useCart} from "../hooks/use_cart";
+import { useCart } from "../hooks/use_cart";
 
 const AllOrderds = ({ id, params, goBack }) => {
   const [allOrders, setAllOrders] = useState(null);

@@ -8,13 +8,14 @@ import Category from "./panels/Category";
 import AboutItem from "./panels/AboutItem";
 import Cart from "./panels/Cart";
 import GetPvzList from "./panels/components/GetPvzList";
-import { ConfigProvider, Snackbar } from "@vkontakte/vkui";
+import { ConfigProvider } from "@vkontakte/vkui";
 import GetCityList from "./panels/components/GetCityList";
 import GetClientAdress from "./panels/components/GetClientAdress";
 import AllOrderds from "./panels/allOrders";
-import {useCart} from "./hooks/use_cart";
-import {useDispatch} from "react-redux";
-import {set_cat} from "./store/actions";
+import { useCart } from "./hooks/use_cart";
+import { useDispatch } from "react-redux";
+import { set_cat } from "./store/actions";
+import GetOrders from "./panels/get_orders";
 
 const App = ({ linkParams, params }) => {
   const dispatch = useDispatch();
@@ -39,16 +40,17 @@ const App = ({ linkParams, params }) => {
     async function fetchData() {
       const user = await bridge.send("VKWebAppGetUserInfo");
       setUser(user);
-
       setPopout(null);
     }
     async function getCat() {
-      const response = await fetch("https://zoomagasin.ru/api/api.php?route=sections");
-      const res = await response.json()
-      dispatch(set_cat(res.items))
+      const response = await fetch(
+        "https://zoomagasin.ru/api/api.php?route=sections"
+      );
+      const res = await response.json();
+      dispatch(set_cat(res.items));
     }
     fetchData();
-    getCat()
+    getCat();
     window.onpopstate = () => {
       goBack();
     };
@@ -135,11 +137,8 @@ const App = ({ linkParams, params }) => {
           setActivePVZ={setActivePVZ}
         />
         <GetClientAdress id={"GetClientAdress"} />
-        <AllOrderds
-          id={"AllOrders"}
-          params={params}
-          goBack={goBack}
-        />
+        <AllOrderds id={"AllOrders"} params={params} goBack={goBack} />
+        <GetOrders go={go} id="get_orders" fetchedUser={fetchedUser}/>
       </View>
       {snackbar}
     </ConfigProvider>

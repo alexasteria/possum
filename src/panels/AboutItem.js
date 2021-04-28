@@ -11,16 +11,16 @@ import {
   Div,
   Title,
   Group,
-  Footer, Subhead,
+  Footer,
 } from "@vkontakte/vkui";
 import "./Home.css";
 
 import CartLine from "./components/CartLine";
-import {useCart} from "../hooks/use_cart";
-import {getElements} from "./components/components/products_list";
+import { useCart } from "../hooks/use_cart";
+import { getElements } from "./components/components/products_list";
 
 const AboutItem = ({ id, go, activeItem }) => {
-  const {order, onIncrementPosition, snackbar} = useCart();
+  const { order, onIncrementPosition, snackbar } = useCart();
   return (
     <Panel id={id}>
       <PanelHeader left={<PanelHeaderBack onClick={() => go("category")} />} />
@@ -28,10 +28,17 @@ const AboutItem = ({ id, go, activeItem }) => {
         <React.Fragment>
           {order !== null && <CartLine go={go} order={order} />}
           <Group
-            style={{ paddingTop: 40 }}
+            style={{ paddingTop: 50 }}
             header={<Header mode="secondary">Информация о товаре</Header>}
           >
-            <img style={{width: "100%"}} src={activeItem.image_url} alt="Фото товара"/>
+            {
+              activeItem.image_url &&
+              <img
+                  style={{ width: "100%" }}
+                  src={activeItem.image_url}
+                  alt="Фото товара"
+              />
+            }
           </Group>
           <Div>
             <CardGrid>
@@ -47,9 +54,9 @@ const AboutItem = ({ id, go, activeItem }) => {
                 </MiniInfoCell>
                 {getElements(activeItem.elements)}
                 <Button
-                    size="xl"
-                    onClick={() => onIncrementPosition(activeItem)}
-                    mode={"outline"}
+                  size="xl"
+                  onClick={() => onIncrementPosition(activeItem)}
+                  mode={"outline"}
                 >
                   Добавить в корзину
                 </Button>

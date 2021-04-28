@@ -43,8 +43,8 @@ const Cart = ({
     changeCount,
     snackbar,
   } = useCart();
-  const getRange = useCallback(()=>{
-    if (order.meta){
+  const getRange = useCallback(() => {
+    if (order.meta) {
       fetch("https://saharnypossum.herokuapp.com/items/getRange", {
         method: "POST",
         mode: "cors",
@@ -60,20 +60,19 @@ const Cart = ({
           weight: String(order.meta.weight),
           count: order.meta.count,
           typeDelivery:
-              activePVZ !== null ? (activePVZ.id === 123 ? "137" : "136") : "137",
+            activePVZ !== null ? (activePVZ.id === 123 ? "137" : "136") : "137",
           postal: activeCity.postal,
         }),
       })
-          .then((res) => res.json())
-          .then((res) => {
-            setDeliv(res);
-          })
-          .catch((e) => {
-            console.log(e);
-          });
+        .then((res) => res.json())
+        .then((res) => {
+          setDeliv(res);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
     }
-      },[order.meta, activeCity.id, activeCity.postal, activePVZ])
-  ;
+  }, [order.meta, activeCity, activePVZ]);
   useEffect(() => {
     if (activeCity !== null) getRange(activeCity.id);
   }, [activeCity, typeDelivery, order, activePVZ, getRange]);

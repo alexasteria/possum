@@ -8,9 +8,9 @@ import {
   Input,
   FormLayout,
   Snackbar,
-  Link,
 } from "@vkontakte/vkui";
 import payImg from "../pay.png";
+import { props } from "./components/products_list";
 
 const Delivery = ({
   deliv,
@@ -26,6 +26,18 @@ const Delivery = ({
   fetchedUser,
   params,
 }) => {
+  console.log(deliv,
+      sum,
+      activePVZ,
+      activeCity,
+      go,
+      typeDelivery,
+      order,
+      who,
+      clearCart,
+      setOrders_success,
+      fetchedUser,
+      params,)
   const payRef = useRef(null);
   const [street, setStreet] = useState("");
   const [house, setHouse] = useState("");
@@ -36,6 +48,16 @@ const Delivery = ({
   const [jsonParams, setJsonParams] = useState(null);
   const [orderNum, setOrderNum] = useState(null);
   const [name, setName] = useState("");
+  const getElem = (element) => {
+    return element.properties.map((p) => {
+      if (props[p.property_id]) {
+        console.log("+")
+        return `${props[p.property_id].title} - ${p.value}`;
+      }
+      console.log("-")
+      return "";
+    }).join("");
+  };
   const genLink = () => {
     const date = Date.now();
     setOrderNum(date);
@@ -44,12 +66,9 @@ const Delivery = ({
     const or = {};
     for (let key in order) {
       if (key !== "meta") {
-        const vp = order[key].item.varPrice.filter(
-          (item) => item.active === true
-        );
-        or[key] = `${order[key].item.title} (${order[key].item._id})  Штук - ${
-          order[key].count
-        } Мерность - ${vp && vp[0].count} ${vp && vp[0].countLabel}`;
+        const e = order[key].item.elements.filter(item => item.active === true);
+        const aboutItem = getElem(e[0]);
+        or[key] = `${order[key].item.name}. Штук - ${order[key].count}. ${aboutItem}`;
       }
     }
     jsonParams.order = or;
@@ -60,12 +79,14 @@ const Delivery = ({
       typeDelivery: who,
       activePVZ: activePVZ !== null ? activePVZ.name : "Не выбрано",
       orderNum: date,
+      date: date
     };
     jsonParams.contacts = {
       address: `г. ${activeCity.name},ул. ${street},д. ${house},кв. ${room}`,
       phone: phone,
       name: name,
     };
+    console.log(jsonParams)
     setJsonParams(jsonParams);
     fetch("https://saharnypossum.herokuapp.com/pay/sber", {
       method: "POST",
@@ -83,12 +104,12 @@ const Delivery = ({
     })
       .then((res) => res.json())
       .then((res) => {
-        if (res.error){
-          setSnackbar(<Snackbar
-              onClose={() => setSnackbar(null)}
-          >
-            Ошибка получения ссылки на оплату
-          </Snackbar>)
+        if (res.error) {
+          setSnackbar(
+            <Snackbar onClose={() => setSnackbar(null)}>
+              Ошибка получения ссылки на оплату
+            </Snackbar>
+          );
         } else {
           setPayLink(String(res));
         }
@@ -152,11 +173,19 @@ const Delivery = ({
       });
   };
 
-  if (deliv.error) {
+  if (deliv && deliv.error) {
     return (
       <>
         <MiniInfoCell textWrap={"full"}>{deliv.error}</MiniInfoCell>
       </>
+    );
+  }
+
+  if (!deliv) {
+    return (
+        <>
+          <MiniInfoCell textWrap={"full"}>В текущий момент на сервере выбранного доставщика временные неполадки. Рассчет невозможен.</MiniInfoCell>
+        </>
     );
   }
 
@@ -254,31 +283,30 @@ const Delivery = ({
       )}
       <Div>
         <a
-            style={{ display: "none" }}
-            target="_blank"
-            ref={payRef}
-            id="payLink"
-            href={payLink}
-            onClick={payAway}
+          style={{ display: "none" }}
+          target="_blank"
+          ref={payRef}
+          id="payLink"
+          href={payLink}
+          onClick={payAway}
         >
-          {
-            payLink &&
+          {payLink && (
             <div
-                style={{
-                  textAlign: "center",
-                  color: "antiquewhite",
-                  background: "rgb(0 0 0 / 9%)",
-                  borderRadius: 10,
-                }}
+              style={{
+                textAlign: "center",
+                color: "antiquewhite",
+                background: "rgb(0 0 0 / 9%)",
+                borderRadius: 10,
+              }}
             >
               Выберите способ оплаты
               <img
-                  style={{ width: "100%" }}
-                  src={payImg}
-                  alt="Перейти к оплате"
+                style={{ width: "100%" }}
+                src={payImg}
+                alt="Перейти к оплате"
               />
             </div>
-          }
+          )}
         </a>
         <Button onClick={pay} mode={"outline"} size={"xl"}>
           {`Оплатить ${Math.round(Number(deliv.price)) + Number(sum)} руб.`}

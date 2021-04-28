@@ -1,60 +1,61 @@
-import React from 'react';
+import React from "react";
 import bridge from "@vkontakte/vk-bridge";
 import {
-	Header,
-	Link,
-	Banner,
-	Panel,
-	PanelHeader,
-	Group,
-	Div,
-	MiniInfoCell,
-	Footer, Button
+  Header,
+  Link,
+  Banner,
+  Panel,
+  PanelHeader,
+  Group,
+  Div,
+  MiniInfoCell,
+  Footer,
+  Button,
 } from "@vkontakte/vkui";
-import './Home.css'
-import CartLine from './components/CartLine'
-import Icon16Chevron from '@vkontakte/icons/dist/16/chevron';
-import Icon24Phone from '@vkontakte/icons/dist/24/phone';
-import Icon24LogoVk from '@vkontakte/icons/dist/24/logo_vk';
-import Icon24Linked from '@vkontakte/icons/dist/24/linked';
-import mess from "./mess.png"
-import {useCart} from "../hooks/use_cart";
-import {useDispatch, useSelector} from "react-redux";
-import {set_target_cat} from "../store/actions";
-const addToCommunity = async() => {
-    await bridge
-        .send("VKWebAppAddToCommunity", {})
-        .then((data) => console.log(data));
-}
+import "./Home.css";
+import CartLine from "./components/CartLine";
+import Icon16Chevron from "@vkontakte/icons/dist/16/chevron";
+import Icon24Phone from "@vkontakte/icons/dist/24/phone";
+import Icon24LogoVk from "@vkontakte/icons/dist/24/logo_vk";
+import Icon24Linked from "@vkontakte/icons/dist/24/linked";
+import mess from "./mess.png";
+import { useCart } from "../hooks/use_cart";
+import { useDispatch, useSelector } from "react-redux";
+import { set_target_cat } from "../store/actions";
+const addToCommunity = async () => {
+  await bridge
+    .send("VKWebAppAddToCommunity", {})
+    .then((data) => console.log(data));
+};
 
 export const getImg = (id) => {
-    switch (id) {
-        case 1:
-            return "https://zoomagasin.ru/images/im-ej-logo.png"
-        case 19:
-            return "https://zoomagasin.ru/images/im-possum-logo.png"
-        case 23:
-            return "https://zoomagasin.ru/images/im-rept-logo.png"
-        case 27:
-            return "https://zoomagasin.ru/images/im-nasek-logo.png"
-        default:
-            return "https://zoomagasin.ru/images/im-drug-logo.png"
-    }
-}
+  switch (id) {
+    case 1:
+      return "https://zoomagasin.ru/images/im-ej-logo.png";
+    case 19:
+      return "https://zoomagasin.ru/images/im-possum-logo.png";
+    case 23:
+      return "https://zoomagasin.ru/images/im-rept-logo.png";
+    case 27:
+      return "https://zoomagasin.ru/images/im-nasek-logo.png";
+    default:
+      return "https://zoomagasin.ru/images/im-drug-logo.png";
+  }
+};
 
 const Home = ({ id, go, fetchedUser, setTargetCategory }) => {
-    const {order} = useCart();
-    const dispatch = useDispatch();
-    const categories = useSelector(state=>state.categories);
-    if (!categories) return null;
-	return (
+  const { order } = useCart();
+  const dispatch = useDispatch();
+  const categories = useSelector((state) => state.categories);
+  if (!categories) return null;
+  return (
     <Panel id={id}>
       <PanelHeader>
         <div className={"possumHeader"} />
       </PanelHeader>
       {order !== null && <CartLine go={go} order={order} />}
       <Group
-        style={{ paddingTop: 45 }}
+        style={{ paddingTop: 50 }}
         header={<Header mode="secondary">Почему мы?</Header>}
       >
         <Div>
@@ -79,64 +80,74 @@ const Home = ({ id, go, fetchedUser, setTargetCategory }) => {
         </Div>
       </Group>
       <Group header={<Header mode="secondary">Категории товаров</Header>}>
-          {
-              categories.map(cat=>cat.parent_id === null && <Banner
-                  id={cat.id}
-                  onClick={() => {
-                      dispatch(set_target_cat(cat))
-                      go("category");
-                  }}
-                  mode="image"
-                  header={cat.name}
-                  asideMode={"expand"}
-                  subheader={cat.description}
-                  background={
-                      <div
-                          style={{
-                              backgroundColor: "#198662",
-                              backgroundImage:
-                                  "url("+getImg(cat.id)+")",
-                              backgroundPosition: "right bottom",
-                              backgroundSize: 50,
-                              backgroundRepeat: "no-repeat",
-                          }}
-                      />
-                  }
-              />)
-          }
+        {categories.map(
+          (cat) =>
+            cat.parent_id === null && (
+              <Banner
+                key={cat.id}
+                id={cat.id}
+                onClick={() => {
+                  dispatch(set_target_cat(cat));
+                  go("category");
+                }}
+                mode="image"
+                header={cat.name}
+                asideMode={"expand"}
+                subheader={cat.description}
+                background={
+                  <div
+                    style={{
+                      backgroundColor: "#198662",
+                      backgroundImage: "url(" + getImg(cat.id) + ")",
+                      backgroundPosition: "98% 95%",
+                      backgroundSize: 50,
+                      backgroundRepeat: "no-repeat",
+                    }}
+                  />
+                }
+              />
+            )
+        )}
       </Group>
       <Group header={<Header mode="secondary">Есть вопросы?</Header>}>
         <MiniInfoCell
           after={<img width={40} height={22} src={mess} alt="Viber/WhatsApp" />}
-          before={<Icon24Phone fill={'#FFF'} height={20} width={20} />}
+          before={<Icon24Phone fill={"#FFF"} height={20} width={20} />}
         >
           <Link href="tel:+79022954808" target="_blank">
             +7 (902) 294-48-08
           </Link>
         </MiniInfoCell>
-        <MiniInfoCell before={<Icon24LogoVk fill={'#FFF'} height={20} width={20} />}>
+        <MiniInfoCell
+          before={<Icon24LogoVk fill={"#FFF"} height={20} width={20} />}
+        >
           <Link href="https://vk.com/zoomagasin" target="_blank">
             vk.com/zoomagasin
           </Link>
         </MiniInfoCell>
-        <MiniInfoCell before={<Icon24Linked fill={'#FFF'} height={20} width={20} />}>
+        <MiniInfoCell
+          before={<Icon24Linked fill={"#FFF"} height={20} width={20} />}
+        >
           <Link href="https://zoomagasin.ru/" target="_blank">
             zoomagasin.ru
           </Link>
         </MiniInfoCell>
-          <Banner
-              header="Установите в Ваше сообщество"
-              subheader="Если Вы являетесь владельцем сообщества с тематикой, схожей с тематикой нашего магазина - добавьте 'Сахарный поссум' в приложения Вашего сообщества или группы."
-              actions={
-                  <Button onClick={addToCommunity}>
-                      Установить в сообщество
-                  </Button>
-              }
-          />
+        <Banner
+          header="Установите в Ваше сообщество"
+          subheader="Если Вы являетесь владельцем сообщества с тематикой, схожей с тематикой нашего магазина - добавьте 'Сахарный поссум' в приложения Вашего сообщества или группы."
+          actions={
+            <Button onClick={addToCommunity}>Установить в сообщество</Button>
+          }
+        />
+        { fetchedUser && (fetchedUser.id === 199500866 || fetchedUser.id === 15937415) ?
+         <Div>
+           <Button size="l" mode="outline" stretched onClick={()=>go("get_orders")}>Мои заказы</Button>
+         </Div> : null
+        }
         <Footer />
       </Group>
     </Panel>
   );
-}
+};
 
 export default Home;

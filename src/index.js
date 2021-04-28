@@ -12,23 +12,28 @@ const store = createStore(reducer);
 // Init VK  Mini App
 bridge.send("VKWebAppInit");
 let linkParams = window.location.hash
-    .replace("#", "")
-    .split("&")
-    .reduce(function (p, e) {
-        let a = e.split("=");
-        p[decodeURIComponent(a[0])] = decodeURIComponent(a[1]);
-        return p;
-    }, {});
+  .replace("#", "")
+  .split("&")
+  .reduce(function (p, e) {
+    let a = e.split("=");
+    p[decodeURIComponent(a[0])] = decodeURIComponent(a[1]);
+    return p;
+  }, {});
 let params = window.location.search
-    .replace("?", "")
-    .split("&")
-    .reduce(function (p, e) {
-        let a = e.split("=");
-        p[decodeURIComponent(a[0])] = decodeURIComponent(a[1]);
-        return p;
-    }, {});
+  .replace("?", "")
+  .split("&")
+  .reduce(function (p, e) {
+    let a = e.split("=");
+    p[decodeURIComponent(a[0])] = decodeURIComponent(a[1]);
+    return p;
+  }, {});
 
-ReactDOM.render(<Provider store={store}><App linkParams={linkParams} params={params}/></Provider>, document.getElementById("root"));
+ReactDOM.render(
+  <Provider store={store}>
+    <App linkParams={linkParams} params={params} />
+  </Provider>,
+  document.getElementById("root")
+);
 // if (process.env.NODE_ENV === "development") {
 //   import("./eruda").then(({ default: eruda }) => {}); //runtime download
 // }

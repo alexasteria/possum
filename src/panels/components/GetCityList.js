@@ -18,7 +18,7 @@ const GetCityList = ({ id, goBack, setActiveCity }) => {
   const setItem = (item) => {
     setActiveCity(item);
     goBack();
-  }
+  };
   const find = () => {
     setLoading(true);
     const url = "https://sahpossum.herokuapp.com/items/getCities/" + nameCity;
@@ -35,7 +35,7 @@ const GetCityList = ({ id, goBack, setActiveCity }) => {
   };
   return (
     <Panel id={id}>
-      <PanelHeader left={<PanelHeaderBack onClick={() => goBack} />} />
+      <PanelHeader left={<PanelHeaderBack onClick={() => goBack()} />} />
       <FormLayout>
         <Input
           top={"Введите полное название города"}

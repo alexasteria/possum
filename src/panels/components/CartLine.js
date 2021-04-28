@@ -10,10 +10,16 @@ const CartLine = ({ go, order }) => {
       <Cell
         onClick={() => go("cart")}
         className="cellCart"
-        description={<span style={{color: '#FFF'}}>Информация о заказах</span>}
+        description={
+          <span style={{ color: "#FFF" }}>Информация о заказах</span>
+        }
         before={
           <span style={{ paddingRight: 4, color: "antiquewhite" }}>
-            <Icon20WorkOutline width={30} height={30} style={{ float: "left", padding: 2 }} />
+            <Icon20WorkOutline
+              width={30}
+              height={30}
+              style={{ float: "left", padding: 2 }}
+            />
           </span>
         }
         indicator={
@@ -28,8 +34,7 @@ const CartLine = ({ go, order }) => {
         }
       >
         <Caption style={{ color: "antiquewhite" }}>
-            Оформить заказ:
-             товаров - {order.meta ? order.meta.count : 0}
+          Оформить заказ: товаров - {order.meta ? order.meta.count : 0}
         </Caption>
       </Cell>
     </FixedLayout>
